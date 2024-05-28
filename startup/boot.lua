@@ -57,6 +57,7 @@ local function boot()
   local position = settings.get("os2.position")
   if settings.get("os2.gps_server") and position then
     SHOW_SPLASH = false
+    sleep(0.2)
     shell.run("gps", "host " .. tostring(position.x) .. " " .. tostring(position.y) .. " " .. tostring(position.z))
   end
 
