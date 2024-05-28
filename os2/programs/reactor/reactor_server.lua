@@ -23,7 +23,7 @@ if reactor == nil then
 end
 
 print("Listening.. ")
-local server = Server.new(PROTOCOL, CLIENT_ID)
+local server = Server.new(PROTOCOL, CLIENT_IDS)
 server.on_request = function (client, payload)
  return reactor.getEnergyStats()
 end
