@@ -45,7 +45,7 @@ for path, content in pairs(contents) do
     return
   end
 
-  file.close()
+  file:close()
 end
 
 print("Installation finished, rebooting.")
