@@ -1,2 +1,2 @@
 # cc_obamos
-ComputerCraft stuff
+Run the following command in CraftOS to install: `wget run https://raw.githubusercontent.com/clausmarian/cc_obamos/main/web_installer.lua`
