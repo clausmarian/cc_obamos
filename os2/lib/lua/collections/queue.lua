@@ -1,6 +1,6 @@
 local Queue = {}
 
-function Queue:new(max_length)
+function Queue.new(max_length)
   local queue = {
     data = {},
     first = 1,
@@ -8,6 +8,10 @@ function Queue:new(max_length)
     length = 0,
     max_length = max_length,
   }
+
+  setmetatable(queue, {
+    __len = function(t) return t.length end,
+  })
 
   function queue:push(value)
     if self.max_length ~= nil and self.length + 1 > self.max_length then
@@ -45,6 +49,14 @@ function Queue:new(max_length)
     return function()
       i = i + 1
       if i <= self.last then return self.data[i] end
+    end
+  end
+
+  function queue:enumerate()
+    local i = self.first - 1
+    return function()
+      i = i + 1
+      if i <= self.last then return i - self.first + 1, self.data[i] end
     end
   end
 

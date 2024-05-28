@@ -6,6 +6,10 @@ function Set.new(collection)
     length = 0,
   }
 
+  setmetatable(set, {
+    __len = function(t) return t.length end,
+  })
+
   -- convert collection to set
   if collection ~= nil then
     for _, value in ipairs(collection) do
