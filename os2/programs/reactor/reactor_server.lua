@@ -1,10 +1,19 @@
 Server = require("/os2/lib/lua/net/lttp/server")
 require("/os2/programs/reactor/reactor_common")
 
-CLIENT_ID = tonumber(arg[1])
-if CLIENT_ID == nil then
-  print("Invalid client id!")
+CLIENT_IDS = arg[1]
+if CLIENT_IDS == nil then
+  print("Invalid client ids!")
   return
+else
+  CLIENT_IDS = textutils.unserialise(CLIENT_IDS)
+  local tp = type(CLIENT_IDS)
+  if tp == "number" then
+    CLIENT_IDS = { CLIENT_IDS }
+  elseif tp ~= "table" then
+    print("Unsupported type for client ids!")
+    return
+  end
 end
 
 local reactor = peripheral.find("BigReactors-Reactor")
@@ -14,7 +23,7 @@ if reactor == nil then
 end
 
 print("Listening.. ")
-local server = Server.new(PROTOCOL, { CLIENT_ID })
+local server = Server.new(PROTOCOL, CLIENT_ID)
 server.on_request = function (client, payload)
  return reactor.getEnergyStats()
 end
