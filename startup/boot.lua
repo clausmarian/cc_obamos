@@ -49,6 +49,7 @@ local function boot()
 
   if not settings.get("os2.setup", false) then
     SHOW_SPLASH = false
+    sleep(0.2)
     shell.run("/os2/sys/setup")
   end
 

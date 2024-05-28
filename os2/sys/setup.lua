@@ -22,6 +22,8 @@ local function readVector3()
   return vector.new(x, y, z)
 end
 
+term.setCursorPos(1, 1)
+
 -- gps
 print("\nIf you want this machine to act as GPS server, enter its position: ")
 local position = readVector3()
