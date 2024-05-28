@@ -1,0 +1,69 @@
+{
+    "version": "0.1",
+    "files": [
+        {
+            "path": "os2/lib/lua/collections/set.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/set.lua"
+        },
+        {
+            "path": "os2/lib/lua/collections/queue.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/queue.lua"
+        },
+        {
+            "path": "os2/lib/lua/collections/generic.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/generic.lua"
+        },
+        {
+            "path": "os2/lib/lua/net/lttp/response.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/response.lua"
+        },
+        {
+            "path": "os2/lib/lua/net/lttp/client.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/client.lua"
+        },
+        {
+            "path": "os2/lib/lua/net/lttp/server.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/server.lua"
+        },
+        {
+            "path": "os2/lib/lua/net/lttp/request.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/request.lua"
+        },
+        {
+            "path": "os2/lib/lua/parser/struct.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/parser/struct.lua"
+        },
+        {
+            "path": "os2/programs/reactor/reactor_server.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_server.lua"
+        },
+        {
+            "path": "os2/programs/reactor/reactor_common.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_common.lua"
+        },
+        {
+            "path": "os2/programs/reactor/reactor_client.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_client.lua"
+        },
+        {
+            "path": "os2/cc_obamos-main.zip",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/cc_obamos-main.zip"
+        },
+        {
+            "path": "boot.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/boot.lua"
+        },
+        {
+            "path": "versions.json",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/versions.json"
+        },
+        {
+            "path": "README.md",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/README.md"
+        },
+        {
+            "path": "copyfiles.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/copyfiles.lua"
+        }
+    ]
+}
