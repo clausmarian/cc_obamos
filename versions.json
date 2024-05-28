@@ -46,10 +46,6 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_client.lua"
         },
         {
-            "path": "os2/cc_obamos-main.zip",
-            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/cc_obamos-main.zip"
-        },
-        {
             "path": "web_installer.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/web_installer.lua"
         },
