@@ -22,7 +22,7 @@ if MAX_QUEUE_LENGTH == nil or MAX_QUEUE_LENGTH < 2 then
   MAX_QUEUE_LENGTH = 30
 end
 
-stats_queue = Queue:new(MAX_QUEUE_LENGTH)
+stats_queue = Queue.new(MAX_QUEUE_LENGTH)
 min = nil
 max = nil
 energyUnit = ""
