@@ -1,7 +1,7 @@
 Queue = require("/os2/lib/lua/collections/queue")
 require("/os2/lib/lua/collections/generic")
 Client = require("/os2/lib/lua/net/lttp/client")
-require("/os2/programs/reactornew/reactor_common")
+require("/os2/programs/reactor/reactor_common")
 
 
 SERVER_ID = tonumber(arg[1])

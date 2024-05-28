@@ -1,5 +1,5 @@
 Server = require("/os2/lib/lua/net/lttp/server")
-require("/os2/programs/reactornew/reactor_common")
+require("/os2/programs/reactor/reactor_common")
 
 CLIENT_ID = tonumber(arg[1])
 if CLIENT_ID == nil then
