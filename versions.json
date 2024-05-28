@@ -50,8 +50,8 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/cc_obamos-main.zip"
         },
         {
-            "path": "boot.lua",
-            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/boot.lua"
+            "path": "web_installer.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/web_installer.lua"
         },
         {
             "path": "versions.json",
@@ -62,8 +62,8 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/README.md"
         },
         {
-            "path": "copyfiles.lua",
-            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/copyfiles.lua"
+            "path": "startup/boot.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/startup/boot.lua"
         }
     ]
 }
