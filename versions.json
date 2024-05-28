@@ -2,6 +2,10 @@
     "version": "0.1",
     "files": [
         {
+            "path": "os2/lib/lua/ui/animations.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/animations.lua"
+        },
+        {
             "path": "os2/lib/lua/collections/set.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/set.lua"
         },
@@ -34,6 +38,14 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/parser/struct.lua"
         },
         {
+            "path": "os2/lib/lua/util/iter.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/util/iter.lua"
+        },
+        {
+            "path": "os2/lib/lua/math/vec2.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/math/vec2.lua"
+        },
+        {
             "path": "os2/programs/reactor/reactor_server.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_server.lua"
         },
@@ -44,6 +56,10 @@
         {
             "path": "os2/programs/reactor/reactor_client.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_client.lua"
+        },
+        {
+            "path": "os2/sys/setup.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/sys/setup.lua"
         },
         {
             "path": "web_installer.lua",
