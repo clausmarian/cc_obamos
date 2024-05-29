@@ -16,6 +16,11 @@ else
   end
 end
 
+PORT = tonumber(arg[2])
+if PORT == nil then
+  PORT = SERVER_PORT
+end
+
 local reactor = peripheral.find("BigReactors-Reactor")
 if reactor == nil then
   print("No reactor found!")
@@ -23,8 +28,8 @@ if reactor == nil then
 end
 
 print("Listening.. ")
-local server = Server.new(PROTOCOL, CLIENT_IDS)
-server.on_request = function (client, payload)
- return reactor.getEnergyStats()
+local server = Server:new(PROTOCOL, PORT, CLIENT_IDS)
+server.on_request = function(client, payload)
+  return reactor.getEnergyStats()
 end
 server:serve_forever()

@@ -10,14 +10,19 @@ if SERVER_ID == nil then
   return
 end
 
-TRANSMISSIONS_PER_SECOND = tonumber(arg[2])
+PORT = tonumber(arg[2])
+if PORT == nil then
+  PORT = SERVER_PORT
+end
+
+TRANSMISSIONS_PER_SECOND = tonumber(arg[3])
 if TRANSMISSIONS_PER_SECOND == nil then
   TRANSMISSIONS_PER_SECOND = 0.1
 else
   TRANSMISSIONS_PER_SECOND = 1 / TRANSMISSIONS_PER_SECOND
 end
 
-MAX_QUEUE_LENGTH = tonumber(arg[3])
+MAX_QUEUE_LENGTH = tonumber(arg[4])
 if MAX_QUEUE_LENGTH == nil or MAX_QUEUE_LENGTH < 2 then
   MAX_QUEUE_LENGTH = 30
 end
@@ -30,7 +35,7 @@ energyUnit = ""
 width, height = term.getSize()
 
 function listen()
-  local client = Client.new(PROTOCOL, SERVER_ID)
+  local client = Client:new(PROTOCOL, PORT, SERVER_ID)
 
   while true do
     local response = client:get(nil, function(t)
