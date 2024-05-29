@@ -2,6 +2,10 @@
     "version": "0.1.1",
     "files": [
         {
+            "path": "os2/lib/lua/ui/animations.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/animations.lua"
+        },
+        {
             "path": "os2/lib/lua/collections/set.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/set.lua"
         },
