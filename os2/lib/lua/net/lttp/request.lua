@@ -8,7 +8,7 @@ VALID_METHODS = Set.new({ METHOD_GET })
 function Request.new(method, payload)
   return {
     payload = payload,
-    method = method
+    method = method,
   }
 end
 
