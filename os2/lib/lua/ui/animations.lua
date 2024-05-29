@@ -9,7 +9,7 @@ function circle(center, radius)
   local res = {}
 
   local function calcCirclePoint(theta)
-    return Vec2.new(center.x + math.cos(theta) * radius, center.y + math.sin(theta) * radius)
+    return Vec2:new(center.x + math.cos(theta) * radius, center.y + math.sin(theta) * radius)
   end
 
   for angle = 0, 360 do
@@ -26,7 +26,7 @@ function loading_circle(center, radius, headColor, tailColor)
   expect(4, tailColor, "number")
 
   -- round circle coordinates to integers since #drawPixel can only draw on integer coordinates
-  local dupl = Set.new(nil)
+  local dupl = Set.new()
   local circ = Queue.new()
 
   for pos in Iter.fromList(circle(center, radius)):map(function(pos) return pos:apply(math.ceil) end).iter do

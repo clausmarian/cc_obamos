@@ -18,7 +18,7 @@ local function splash()
   term.setCursorPos(width / 2, height / 2 - 1)
   term.write("Os2")
 
-  local drawCircle = loading_circle(Vec2.new(width / 2, height / 2 + 1), 1, colors.blue, colors.lightBlue)
+  local drawCircle = loading_circle(Vec2:new(width / 2, height / 2 + 1), 1, colors.blue, colors.lightBlue)
   while SHOW_SPLASH do
     drawCircle()
     sleep(0.1)
