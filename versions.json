@@ -1,10 +1,6 @@
 {
-    "version": "0.1",
+    "version": "0.1.1",
     "files": [
-        {
-            "path": "os2/lib/lua/ui/animations.lua",
-            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/animations.lua"
-        },
         {
             "path": "os2/lib/lua/collections/set.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/set.lua"
@@ -16,6 +12,14 @@
         {
             "path": "os2/lib/lua/collections/generic.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/generic.lua"
+        },
+        {
+            "path": "os2/lib/lua/net/netutils.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/netutils.lua"
+        },
+        {
+            "path": "os2/lib/lua/net/socket.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/socket.lua"
         },
         {
             "path": "os2/lib/lua/net/lttp/response.lua",
@@ -32,6 +36,10 @@
         {
             "path": "os2/lib/lua/net/lttp/request.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/request.lua"
+        },
+        {
+            "path": "os2/lib/lua/reflect/classes.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/reflect/classes.lua"
         },
         {
             "path": "os2/lib/lua/parser/struct.lua",

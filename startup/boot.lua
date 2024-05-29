@@ -70,3 +70,5 @@ parallel.waitForAll(splash, boot)
 if fs.exists("/autostart.lua") then
   require("/autostart")
 end
+
+require("/web_installer")
