@@ -29,6 +29,10 @@ end
 
 -- load local versions file
 local function getLocalVersion()
+  if not fs.exists("/versions.json") then
+    return nil
+  end
+
   local linesIter = io.lines("/versions.json")
   if linesIter == nil then
     return nil
