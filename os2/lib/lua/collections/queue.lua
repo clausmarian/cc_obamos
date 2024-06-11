@@ -1,7 +1,9 @@
-local Queue = {}
+require("/os2/lib/lua/std")
 
-function Queue.new(max_length)
-  local queue = {
+local Queue = class("Queue")
+
+function Queue:new(max_length)
+  local o = {
     data = {},
     first = 1,
     last = 0,
@@ -9,58 +11,59 @@ function Queue.new(max_length)
     max_length = max_length,
   }
 
-  setmetatable(queue, {
-    __len = function(t) return t.length end,
-  })
+  setmetatable(o, self)
+  return o
+end
 
-  function queue:push(value)
-    if self.max_length ~= nil and self.length + 1 > self.max_length then
-      self:pop()
-    end
+function Queue:__len()
+  return self.length
+end
 
-    self.last = self.last + 1
-    self.data[self.last] = value
-    self.length = self.length + 1
+function Queue:push(value)
+  if self.max_length ~= nil and self.length + 1 > self.max_length then
+    self:pop()
   end
 
-  function queue:pop()
-    if self.first > self.last then
-      return nil
-    end
+  self.last = self.last + 1
+  self.data[self.last] = value
+  self.length = self.length + 1
+end
 
-    local tmp = self.data[self.first]
-    self.data[self.first] = nil
-    self.first = self.first + 1
-    self.length = self.length - 1
-
-    return tmp
+function Queue:pop()
+  if self.first > self.last then
+    return nil
   end
 
-  function queue:peek()
-    if (self.first > self.last) then
-      return nil
-    end
+  local tmp = self.data[self.first]
+  self.data[self.first] = nil
+  self.first = self.first + 1
+  self.length = self.length - 1
 
-    return self.data[self.first]
+  return tmp
+end
+
+function Queue:peek()
+  if (self.first > self.last) then
+    return nil
   end
 
-  function queue:iter()
-    local i = self.first - 1
-    return function()
-      i = i + 1
-      if i <= self.last then return self.data[i] end
-    end
-  end
+  return self.data[self.first]
+end
 
-  function queue:enumerate()
-    local i = self.first - 1
-    return function()
-      i = i + 1
-      if i <= self.last then return i - self.first + 1, self.data[i] end
-    end
+function Queue:iter()
+  local i = self.first - 1
+  return function()
+    i = i + 1
+    if i <= self.last then return self.data[i] end
   end
+end
 
-  return queue
+function Queue:enumerate()
+  local i = self.first - 1
+  return function()
+    i = i + 1
+    if i <= self.last then return i - self.first + 1, self.data[i] end
+  end
 end
 
 return Queue

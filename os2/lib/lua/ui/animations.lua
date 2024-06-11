@@ -27,7 +27,7 @@ function loading_circle(center, radius, headColor, tailColor)
 
   -- round circle coordinates to integers since #drawPixel can only draw on integer coordinates
   local dupl = Set.new()
-  local circ = Queue.new()
+  local circ = Queue:new()
 
   for pos in Iter.fromList(circle(center, radius)):map(function(pos) return pos:apply(math.ceil) end).iter do
     local posStr = tostring(pos)
