@@ -1,3 +1,5 @@
+local Set = require("/os2/lib/lua/collections/set")
+
 function dump_table(o)
   if type(o) == 'table' then
     local s = '{ '
@@ -61,6 +63,10 @@ local function makeType(prefix, name)
 end
 
 function itype(o)
+  if o == nil then
+    return "nil"
+  end
+
   local t = o._type_name
   if t then
     return t
@@ -70,26 +76,44 @@ function itype(o)
 end
 
 function isinstanceof(o, t)
-  return itype(o) == itype(t)
+  if itype(o) == itype(t) or (o ~= nil and o.getParentClasses and o:getParentClasses():contains(itype(t))) then
+    return true
+  end
+end
+
+local function collectParentClasses(clazz)
+  local parents = Set.new()
+
+  local super = clazz.super
+  while super ~= nil do
+    parents:insert(itype(super))
+    super = super.super
+  end
+
+  return parents
 end
 
 function class(name, ...)
-  local class = makeType("class", name)
+  local clazz = makeType("class", name)
   local arg = { ... }
 
   -- class will search for each method in the list of its parents
   if #arg > 1 then
     error("Class can only have 1 superclass!")
   elseif #arg == 1 then
-    setmetatable(class, {
+    setmetatable(clazz, {
       __index = function(t, k) return search(k, arg) end
     })
-    class.super = arg[1]
+    clazz.super = arg[1]
   end
 
-  class.__index = class
+  local parentClasses = collectParentClasses(clazz)
+  function clazz:getParentClasses()
+    return parentClasses
+  end
 
-  return class
+  clazz.__index = clazz
+  return clazz
 end
 
 function enum(name, keyToValue)
