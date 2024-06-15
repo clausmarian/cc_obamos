@@ -1,9 +1,10 @@
-local Struct = require("/os2/lib/lua/parser/struct")
-local netutils = require("/os2/lib/lua/net/netutils")
+require("/os2/lib/lua/std")
+local Struct = import("parser/struct")
+local netutils = import("net/netutils")
 
-Socket = {}
+local Socket = class("Socket")
 
-local messageTemplate = Struct.new({
+local messageTemplate = Struct:new({
   srcPort = "number",
   dstPort = "number"
 })
@@ -14,7 +15,6 @@ local function newSocket(self, port)
   }
 
   setmetatable(o, self)
-  self.__index = self
   return o
 end
 

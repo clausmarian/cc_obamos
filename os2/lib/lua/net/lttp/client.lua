@@ -1,8 +1,9 @@
-local Request = require("/os2/lib/lua/net/lttp/request")
-local Response = require("/os2/lib/lua/net/lttp/response")
-local Socket = require("/os2/lib/lua/net/socket")
+require("/os2/lib/lua/std")
+local Request = import("net/lttp/request")
+local Response = import("net/lttp/response")
+local Socket = import("net/socket")
 
-Client = {}
+local Client = class("Client")
 
 function Client:new(protocol, serverPort, serverAddr, timeout)
   local o = {
@@ -14,7 +15,6 @@ function Client:new(protocol, serverPort, serverAddr, timeout)
   }
 
   setmetatable(o, self)
-  self.__index = self
   return o
 end
 
