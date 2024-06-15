@@ -1,11 +1,16 @@
 local Set = require("/os2/lib/lua/collections/set")
 
-function dump_table(o)
+function dump_table(o, rec)
+  local str_table = dump_table
+  if rec == false then
+    str_table = tostring
+  end
+
   if type(o) == 'table' then
     local s = '{ '
     for k, v in pairs(o) do
       if type(k) ~= 'number' then k = '"' .. k .. '"' end
-      s = s .. '[' .. k .. '] = ' .. dump_table(v) .. ','
+      s = s .. '[' .. k .. '] = ' .. str_table(v) .. ','
     end
     return s .. '} '
   else
