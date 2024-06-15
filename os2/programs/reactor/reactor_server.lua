@@ -1,4 +1,5 @@
-Server = require("/os2/lib/lua/net/lttp/server")
+require("/os2/lib/lua/std")
+local Server = import("net/lttp/server")
 require("/os2/programs/reactor/reactor_common")
 
 CLIENT_IDS = arg[1]

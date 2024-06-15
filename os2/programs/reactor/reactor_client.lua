@@ -1,8 +1,8 @@
-Queue = require("/os2/lib/lua/collections/queue")
-require("/os2/lib/lua/collections/generic")
-Client = require("/os2/lib/lua/net/lttp/client")
+require("/os2/lib/lua/std")
+local Queue = import("collections/queue")
+import("collections/generic")
+local Client = import("net/lttp/client")
 require("/os2/programs/reactor/reactor_common")
-
 
 SERVER_ID = tonumber(arg[1])
 if SERVER_ID == nil then
@@ -27,7 +27,7 @@ if MAX_QUEUE_LENGTH == nil or MAX_QUEUE_LENGTH < 2 then
   MAX_QUEUE_LENGTH = 30
 end
 
-stats_queue = Queue.new(MAX_QUEUE_LENGTH)
+stats_queue = Queue:new(MAX_QUEUE_LENGTH)
 min = nil
 max = nil
 energyUnit = ""
