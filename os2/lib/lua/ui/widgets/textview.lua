@@ -3,11 +3,12 @@ local Widget = import("ui/widgets/widget")
 
 local TextView = class("TextView", Widget)
 
-function TextView:new(parent, pos, text, textColor, multiline)
+function TextView:new(parent, pos, text, textColor, bgColor, multiline)
   local o = self.super:new(parent, pos, width or 5, height or 1)
 
   o.text = text
   o.textColor = textColor or colors.black
+  o.bgColor = bgColor
   o.multiline = multiline or false
 
   setmetatable(o, self)
@@ -28,7 +29,9 @@ end
 
 function TextView:draw(win, topLeft, bottomRight)
   if self.text ~= nil then
-    if self.parent ~= nil then
+    if self.bgColor then
+      win.setBackgroundColor(self.bgColor)
+    elseif self.parent ~= nil then
       win.setBackgroundColor(self.parent.bgColor)
     end
     win.setTextColor(self.textColor)
