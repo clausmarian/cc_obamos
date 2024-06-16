@@ -84,6 +84,8 @@ function isinstanceof(o, t)
   if itype(o) == itype(t) or (o ~= nil and o.getParentClasses and o:getParentClasses():contains(itype(t))) then
     return true
   end
+
+  return false
 end
 
 local function collectParentClasses(clazz)
@@ -148,6 +150,16 @@ function enum(name, keyToValue)
 
   function e:fromValue(value)
     return match(value, valueToKey, nil)
+  end
+
+  -- strkey to key
+  local strToKey = {}
+  for k, _ in pairs(keyToValue) do
+    strToKey[k] = e[k]
+  end
+
+  function e:fromKey(value)
+    return match(value, strToKey, nil)
   end
 
   return e
