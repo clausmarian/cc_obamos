@@ -66,7 +66,7 @@ function Container:clearWidgets()
 end
 
 function Container:setVisibility(visibility)
-  self.super.setVisibility(self, visibility)
+  Widget.setVisibility(self, visibility)
 
   for _, widget in pairs(self.children) do
     widget:setVisibility(visibility)

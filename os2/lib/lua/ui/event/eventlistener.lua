@@ -1,5 +1,4 @@
 require("/os2/lib/lua/std")
-local Event = import("ui/event/event")
 
 local EventListener = class("EventListener")
 
