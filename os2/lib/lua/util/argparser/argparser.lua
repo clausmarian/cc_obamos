@@ -49,7 +49,15 @@ function Argument:isList()
   return self._isList
 end
 
-function Argument:parse(value)
+function Argument:getTypeName()
+  if self:isList() then
+    return "{ " .. self.atype .. ", ... }"
+  end
+
+  return self.atype
+end
+
+function Argument:_parse(value)
   if value == nil then
     if self:hasDefault() then
       return true, self.default
@@ -61,13 +69,17 @@ function Argument:parse(value)
   if self:isList() then
     return parseList(value, self.parser)
   else
-    local suc, v = self.parser(value)
-    if suc then
-      return true, self.transformer(v)
-    end
-
-    return false, v
+    return self.parser(value)
   end
+end
+
+function Argument:parse(value)
+  local suc, v = self:_parse(value)
+  if suc then
+    return true, self.transformer(v)
+  end
+
+  return false, v
 end
 
 local ArgParser = class("ArgParser")
@@ -141,7 +153,7 @@ function ArgParser:parse(args)
     else
       local err = value
       if err == nil then
-        err = "expected a value of type '" .. argument.atype .. "', got '"
+        err = "expected a value of type '" .. argument:getTypeName() .. "', got '"
             .. tostring(a) .. "' (a '" .. type(a) .. "' value)"
       end
       printError("Error parsing '" .. argument.name .. "', " .. err)
