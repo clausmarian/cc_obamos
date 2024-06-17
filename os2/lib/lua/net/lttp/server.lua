@@ -61,7 +61,7 @@ function Server:handle_request(client, clientPort, request, socket)
     socket:send(client, clientPort, packet, self.protocol)
 
     if self.logging then
-      print("Responded to request (" .. tostring(packet.method) .. ", " .. tostring(packet.endpoint) .. ") from '"
+      print("Responded to request (" .. tostring(request.method) .. ", " .. tostring(request.endpoint) .. ") from '"
         .. tostring(client) .. "' with " .. tostring(packet.status))
     end
   end
