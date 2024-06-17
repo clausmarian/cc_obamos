@@ -22,14 +22,14 @@ function import(path)
   return require("/os2/lib/lua/" .. path)
 end
 
-function match(o, t, default)
+function match(o, t, default, noexec)
   local v = t[o]
 
   if v == nil then
     v = default
   end
 
-  if type(v) == "function" then
+  if not noexec and type(v) == "function" then
     v = v()
   end
 
