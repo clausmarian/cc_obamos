@@ -69,4 +69,10 @@ function Queue:enumerate()
   end
 end
 
+function Queue:map(transform)
+  for i = self.first, self.last do
+    self.data[i] = transform(self.data[i])
+  end
+end
+
 return Queue
