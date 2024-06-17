@@ -10,7 +10,7 @@ local TextInput = import("ui/widgets/textinput")
 local Vec2 = import("math/vec2")
 import("collections/generic")
 
-local App = {}
+local App = class("App")
 
 function App:moveWidget(widget, pos)
   local z_index = self.widgetToZ[widget]
@@ -30,11 +30,11 @@ function App:new()
     widgetToIndex = {},
     widgetToZ = {},
     timers = {},
+    services = {},
     eventListener = EventListener:new(),
     running = false,
   }
   setmetatable(o, self)
-  self.__index = self
   return o
 end
 
@@ -95,6 +95,10 @@ end
 
 function App:addTimer(timer)
   self.timers[#self.timers + 1] = timer
+end
+
+function App:addService(func)
+  self.services[#self.services + 1] = func
 end
 
 local function buildLayout(widgets, focusManager)
@@ -169,11 +173,10 @@ function App:rebuild()
   self.newDrawables = drawables
 end
 
-local function handleLoopPcall(name, ...)
+local function handleLoopPcall(app, name, ...)
+  app:stop()
   local arg = { ... }
   if not arg[1] then
-    term.clear()
-    term.setCursorPos(1, 1)
     printError("Error in '" .. name .. "':" .. arg[2])
   end
 end
@@ -186,19 +189,33 @@ function App:run()
   self.rootWin = rootContainer.win
   self.posToWidget = posToWidget
 
+  -- add pcall handler to services
+  local pcallServices = {}
+  for i, service in ipairs(self.services) do
+    pcallServices[#pcallServices + 1] = function()
+      handleLoopPcall(self, "Service " .. tostring(i), pcall(service))
+    end
+  end
+
   self.running = true
   parallel.waitForAny(function()
-    handleLoopPcall("eventLoop", pcall(self.eventLoop, self))
-  end, function()
-    handleLoopPcall("drawLoop", pcall(self.drawLoop, self, drawables, rootContainer))
-  end)
-  self:stop()
+      handleLoopPcall(self, "eventLoop", pcall(self.eventLoop, self))
+    end, function()
+      handleLoopPcall(self, "drawLoop", pcall(self.drawLoop, self, drawables, rootContainer))
+    end,
+    table.unpack(pcallServices))
+
+  if self.running then
+    self:stop()
+  end
 end
 
 function App:stop()
   self.running = false
-  term.setCursorPos(1, 1)
-  term.clear()
+  self:_resetWindows()
+end
+
+function App:_resetWindows()
 end
 
 function App:drawLoop(drawables, rootContainer)
@@ -206,6 +223,16 @@ function App:drawLoop(drawables, rootContainer)
   local root = rootContainer.win
   local front = window.create(root, 1, 1, rootContainer.width, rootContainer.height, true)
   local back = window.create(root, 1, 1, rootContainer.width, rootContainer.height, false)
+
+  self._resetWindows = function(self)
+    front.setVisible(false)
+    back.setVisible(false)
+    term.redirect(root)
+    term.setCursorPos(1, 1)
+    term.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.clear()
+  end
 
   while self.running do
     if self.newDrawables then
