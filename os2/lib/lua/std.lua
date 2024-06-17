@@ -47,6 +47,18 @@ function string.split(inputstr, sep)
   return t
 end
 
+-- terminate handler
+function handleTerminate(func, handler)
+  parallel.waitForAny(function()
+    while true do
+      if os.pullEventRaw("terminate") == "terminate" then
+        handler()
+        break
+      end
+    end
+  end, func)
+end
+
 -- oop
 local function search(k, superClasses)
   for _, superClass in ipairs(superClasses) do
