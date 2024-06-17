@@ -41,6 +41,7 @@ function Server:serve_forever()
 
   local socket = Socket:server(self.port)
   self.running = true
+  self.socket = socket
   while self.running do
     local sender, srcPort, packet, _ = socket:receive(self.protocol)
     self:handle_request(sender, srcPort, packet, socket)
@@ -82,6 +83,7 @@ end
 function Server:close()
   self.running = false
   self.socket:close()
+  self.socket = nil
 end
 
 return Server
