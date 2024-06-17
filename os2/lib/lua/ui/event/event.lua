@@ -12,6 +12,7 @@ local Event = enum("Event", {
 
   -- ui
   DRAG_WIDGET = "drag_widget",
+  SELECT = "select"
 })
 
 return Event
