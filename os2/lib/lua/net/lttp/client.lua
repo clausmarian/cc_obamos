@@ -18,16 +18,16 @@ function Client:new(protocol, serverPort, serverAddr, timeout)
   return o
 end
 
-function Client:get(payload, payload_checker)
+function Client:get(endpoint, payload, payload_checker)
   payload_checker = payload_checker or function(_)
     return true
   end
 
-  self.socket:send(self.serverAddr, self.serverPort, Request.get(payload), self.protocol)
+  self.socket:send(self.serverAddr, self.serverPort, Request.get(endpoint, payload), self.protocol)
 
   -- catch server response
   local sender, packet, srcPort = nil, nil, nil
-  while sender ~= self.serverAddr and srcPort ~= self.serverPort do
+  while sender ~= self.serverAddr or srcPort ~= self.serverPort or packet == nil or packet.endpoint ~= endpoint do
     sender, srcPort, packet, _ = self.socket:receive(self.protocol, self.timeout)
   end
 

@@ -46,7 +46,7 @@ function Response.empty()
 end
 
 function Response.parse(t)
-  if type(t) ~= "table" or not VALID_STATUS:contains(t.status) then
+  if type(t) ~= "table" or not VALID_STATUS:contains(t.status) or type(t.endpoint) ~= "string" then
     return nil
   end
 

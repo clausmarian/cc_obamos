@@ -57,10 +57,12 @@ end
 
 function Server:handle_request(client, clientPort, request, socket)
   local function respond(packet)
+    packet.endpoint = request.endpoint
     socket:send(client, clientPort, packet, self.protocol)
 
     if self.logging then
-      print("Responded to request from '" .. tostring(client) .. "' with " .. tostring(packet.status))
+      print("Responded to request (" .. tostring(packet.method) .. ", " .. tostring(packet.endpoint) .. ") from '"
+        .. tostring(client) .. "' with " .. tostring(packet.status))
     end
   end
 
@@ -73,7 +75,7 @@ function Server:handle_request(client, clientPort, request, socket)
   if request == nil then
     respond(Response.badRequest())
   else
-    respond(Response.ok(self.on_request(client, request.payload)))
+    respond(Response.ok(self.on_request(client, request.endpoint, request.method, request.payload)))
   end
 end
 
