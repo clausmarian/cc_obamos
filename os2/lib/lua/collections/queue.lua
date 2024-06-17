@@ -20,13 +20,16 @@ function Queue:__len()
 end
 
 function Queue:push(value)
+  local res = nil
   if self.max_length ~= nil and self.length + 1 > self.max_length then
-    self:pop()
+    res = self:pop()
   end
 
   self.last = self.last + 1
   self.data[self.last] = value
   self.length = self.length + 1
+
+  return res
 end
 
 function Queue:pop()
