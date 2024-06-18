@@ -3,129 +3,168 @@ local Queue = import("collections/queue")
 import("collections/generic")
 local Client = import("net/lttp/client")
 require("/os2/programs/reactor/reactor_common")
+local EnergyUnit = import("energy/energyunit")
+local ArgParser = import("util/argparser/argparser")
+local Parser = import("util/argparser/parser")
 
-SERVER_ID = tonumber(arg[1])
-if SERVER_ID == nil then
-  print("Invalid server id!")
-  return
+local Vec2 = import("math/vec2")
+local App = import("ui/app")
+local Container = import("ui/layout/container")
+local GridContainer = import("ui/layout/grid")
+local TextView = import("ui/widgets/textview")
+local ProgressBar = import("ui/widgets/progressbar")
+local Widget = import("ui/widgets/widget")
+local Event = import("ui/event/event")
+local EventListener = import("ui/event/eventlistener")
+local RadioGroup = import("ui/widgets/radiogroup")
+local Graph = import("ui/widgets/graph")
+
+local argparser = ArgParser:new("Display reactor info.")
+argparser:addArgument("server_id", "int", nil, "id of the reactor server to fetch info from")
+argparser:addArgument("name", "string", "", "name that is displayed in the ui")
+argparser:addArgument("server_port", "int", SERVER_PORT, "port of the reactor server to fetch info from")
+argparser:addArgument("transmissions_per_second", Parser.NUMBER:from(1), 10, "inverse sleep timer for client").transformer = function(
+    value)
+  return 1 / value
 end
+argparser:addArgument("max_queue_length", Parser.INT:from(2), 30, "max amounts of values to display in graph")
+local args = argparser:parse_args()
 
-PORT = tonumber(arg[2])
-if PORT == nil then
-  PORT = SERVER_PORT
-end
+stats_queue = Queue:new(args.max_queue_length)
+stats = {
+  sum_all = 0,
+  sum_mq = 0
+}
+recv_value_count = 0
+recvEnergyUnit = EnergyUnit.FE
+energyUnit = EnergyUnit.FE
+reactorMod = nil
+reactorPeripheral = nil
 
-TRANSMISSIONS_PER_SECOND = tonumber(arg[3])
-if TRANSMISSIONS_PER_SECOND == nil then
-  TRANSMISSIONS_PER_SECOND = 0.1
-else
-  TRANSMISSIONS_PER_SECOND = 1 / TRANSMISSIONS_PER_SECOND
-end
+local app = App:new()
+local frame = Container:frame()
+local listener = EventListener:new()
 
-MAX_QUEUE_LENGTH = tonumber(arg[4])
-if MAX_QUEUE_LENGTH == nil or MAX_QUEUE_LENGTH < 2 then
-  MAX_QUEUE_LENGTH = 30
-end
+app:addService(function()
+  local client = Client:new(PROTOCOL, args.server_port, args.server_id)
 
-stats_queue = Queue:new(MAX_QUEUE_LENGTH)
-min = nil
-max = nil
-energyUnit = ""
+  local init = client:get(INIT_ENDPOINT, nil, function(t)
+    return initStruct:check(t)
+  end)
 
-width, height = term.getSize()
+  if not init:isOk() then
+    printError("Invalid init data!")
+    return
+  end
+  reactorMod = init.payload.mod
+  reactorPeripheral = init.payload.peripheralName
 
-function listen()
-  local client = Client:new(PROTOCOL, PORT, SERVER_ID)
+  if #args.name == 0 then
+    graphTitleTv:setText(reactorPeripheral .. " (" .. reactorMod .. ")")
+  end
 
   while true do
-    local response = client:get(nil, function(t)
-      return struct:check(t)
+    local response = client:get(ENERGY_STATS_ENDPOINT, nil, function(t)
+      return energyStatsStruct:check(t)
     end)
 
     if response:isOk() then
       local payload = response.payload
 
-      stats_queue:push(math.floor(payload.energyProducedLastTick))
+      listener:callEvent("value", math.floor(payload.energyProducedLastTick))
 
-      if energyUnit == "" then
-        energyUnit = " " .. payload.energySystem
+      if recvEnergyUnit == nil then
+        local unit = EnergyUnit:fromKey(payload.energyUnit)
+        if unit ~= nil then
+          recvEnergyUnit = unit
+        end
       end
     end
 
-    sleep(TRANSMISSIONS_PER_SECOND)
+    sleep(args.transmissions_per_second)
   end
-end
+end)
 
-function draw()
-  local inc_x = (width - 1) / (MAX_QUEUE_LENGTH - 1)
+-- loading screen
+local loadingScreen = GridContainer:new(frame, Vec2:ones(), frame.width, frame.height, 1, 3, colors.white)
+local progressBar = ProgressBar:new(loadingScreen, Vec2:ones(), 0, args.max_queue_length, loadingScreen.width / 2, 1, colors.black, colors.blue)
+local titleTv = TextView:new(loadingScreen, Vec2:ones(), "RADIANT SMILE", colors.black, colors.lightBlue)
+titleTv.centerText = true
+titleTv:setWidth(progressBar.width)
+local recvTv = TextView:new(loadingScreen, Vec2:ones(), "", colors.black)
+recvTv.centerText = true
+recvTv:setWidth(progressBar.width)
 
-  while true do
-    term.setBackgroundColor(colors.white)
-    term.setTextColor(colors.black)
-    term.clear()
+loadingScreen:addWidget(titleTv, 1, 1)
+loadingScreen:addWidget(progressBar, 1, 2)
+loadingScreen:addWidget(recvTv, 1, 3)
+loadingScreen:buildLayout(GridContainer.Style:new():centerX(true):centerY(true))
 
-    if stats_queue.length < MAX_QUEUE_LENGTH then
-      -- loading screen
-      local x = width / 3
-      local y = height / 3
-      term.setCursorPos(x, y)
-      term.setBackgroundColor(colors.blue)
-      term.write("RADIANT SMILE")
-      term.setCursorPos(x, y + 3)
-      term.setBackgroundColor(colors.white)
-      term.write("Received " .. tostring(stats_queue.length) .. " of " .. tostring(MAX_QUEUE_LENGTH))
+-- graph
+local rightColWidth = 12 + #tostring(args.max_queue_length)
 
-      x = width / 4
-      endX = width * 3 / 4
-      y = y + 2
-      paintutils.drawLine(x, y, endX, y, colors.black)
-      if stats_queue.length > 0 then
-        paintutils.drawLine(x, y, x + (stats_queue.length / MAX_QUEUE_LENGTH) * (endX - x), y, colors.blue)
-      end
-    else
-      -- graph
-      local lmin = table.min(stats_queue.data)
-      if min == nil or lmin < min then
-        min = lmin
-      end
-      local lmax = table.max(stats_queue.data)
-      if max == nil or lmax > max then
-        max = lmax
-      end
+local graphContainer = Container:new(frame, Vec2:ones(), frame.width, frame.height, colors.blue)
+local graph = Graph:new(graphContainer, Vec2:new(2, 2), graphContainer.width - 3 - rightColWidth, graphContainer.height - 2, stats_queue)
+graph:setUnit(energyUnit)
+graphTitleTv = TextView:new(graphContainer, Vec2:new(graph.topLeft.x + 1, 1), args.name, colors.black, colors.blue)
+graphTitleTv.centerText = true
+graphTitleTv:setWidth(graph.width)
 
-      local inc_y = (height - 1) / (max - min)
+listener:addEventHandler("value", function(value)
+  value = recvEnergyUnit:convertTo(energyUnit, value)
 
-      -- put first value on y axis
-      local iter = stats_queue:iter()
-      local prev_value = iter()
-      local prev_x = 1
-      local prev_y = (max - prev_value) * inc_y + 1
-
-      local x = 1
-
-      for value in iter do
-        x = x + inc_x
-        local y = (max - value) * inc_y + 1
-
-        paintutils.drawLine(prev_x, prev_y, x, y, colors.red)
-
-        prev_x = x
-        prev_y = y
-      end
-
-      -- graph labels
-      term.setTextColor(colors.black)
-      term.setBackgroundColor(colors.green)
-      term.setCursorPos(1, 1)
-      term.write(tostring(max) .. energyUnit)
-
-      term.setBackgroundColor(colors.red)
-      term.setCursorPos(1, height)
-      term.write(tostring(min) .. energyUnit)
-    end
-
-    sleep(TRANSMISSIONS_PER_SECOND)
+  local oldestVal = stats_queue:push(value)
+  if oldestVal == nil then
+    oldestVal = 0
   end
-end
 
-parallel.waitForAny(listen, draw)
+  stats.sum_all = stats.sum_all + value
+  stats.sum_mq = stats.sum_mq + value - oldestVal
+  recv_value_count = recv_value_count + 1
+
+  local ec = " " .. tostring(energyUnit)
+  statsTv:setText("Avg (all): \n" .. ftostring(stats.sum_all / recv_value_count) .. ec
+    .. "\nAvg (last " ..
+    tostring(args.max_queue_length) .. "): \n" .. ftostring(stats.sum_mq / args.max_queue_length) .. ec)
+
+  if stats_queue.length < args.max_queue_length then
+    progressBar:setValue(stats_queue.length)
+    recvTv:setText("Received " .. tostring(stats_queue.length) .. " of " .. tostring(args.max_queue_length))
+  elseif graphContainer:getVisibility() ~= Widget.Visibility.VISIBLE then
+    loadingScreen:setVisibility(Widget.Visibility.NONE)
+    graphContainer:setVisibility(Widget.Visibility.VISIBLE)
+  end
+end)
+
+-- control
+local radioGroup = RadioGroup:new(graphContainer, Vec2:new(graph.bottomRight.x + 2, 2), 5,
+  { EnergyUnit.FE, EnergyUnit.J, EnergyUnit.EU }, EnergyUnit.FE, graphContainer.bgColor)
+radioGroup:addEventHandler(Event.SELECT, function()
+  local prevEnergyUnit = energyUnit
+  energyUnit = radioGroup:getSelectedValue()
+
+  local function conv(value)
+    return prevEnergyUnit:convertTo(energyUnit, value)
+  end
+
+  stats_queue:map(conv)
+  for k, v in pairs(stats) do
+    stats[k] = conv(v)
+  end
+  graph.min = conv(graph.min)
+  graph.max = conv(graph.max)
+
+  graph:setUnit(energyUnit)
+end)
+statsTv = TextView:new(graphContainer, Vec2:new(graph.bottomRight.x + 2, radioGroup.bottomRight.y + 2), "", colors.black,
+  graphContainer.bgColor, true)
+statsTv:setWidth(rightColWidth)
+
+graphContainer:addWidgets({ graph, graphTitleTv, radioGroup, statsTv })
+graphContainer:setVisibility(Widget.Visibility.NONE)
+
+frame:addWidgets({ loadingScreen, graphContainer })
+app:addWidget(frame, 1)
+
+app:run()
+

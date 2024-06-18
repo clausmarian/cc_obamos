@@ -1,0 +1,22 @@
+[
+  {
+    "mod": "ExtremeReactors",
+    "peripheral_name": "BigReactors-Reactor"
+  },
+  {
+    "mod": "Mekanism",
+    "peripheral_name": "turbineValve",
+    "energy_stats": {
+      "energy_system": "J",
+      "energy_produced_last_tick_func": "getProductionRate"
+    }
+  },
+  {
+    "mod": "Mekanism",
+    "peripheral_name": "inductionPort",
+    "energy_stats": {
+      "energy_system": "J",
+      "energy_produced_last_tick_func": "getLastInput"
+    }
+  }
+]
