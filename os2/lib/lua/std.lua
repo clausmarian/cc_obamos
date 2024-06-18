@@ -36,6 +36,10 @@ function match(o, t, default, noexec)
   return v
 end
 
+function ftostring(float)
+  return string.format("%.2f", float)
+end
+
 -- string
 function string.split(inputstr, sep)
   local t = {}
