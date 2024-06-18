@@ -71,14 +71,14 @@ app:addService(function()
     if response:isOk() then
       local payload = response.payload
 
-      listener:callEvent("value", math.floor(payload.energyProducedLastTick))
-
       if recvEnergyUnit == nil then
-        local unit = EnergyUnit:fromKey(payload.energyUnit)
+        local unit = EnergyUnit:fromKey(payload.energySystem)
         if unit ~= nil then
           recvEnergyUnit = unit
         end
       end
+
+      listener:callEvent("value", math.floor(payload.energyProducedLastTick))
     end
 
     sleep(args.transmissions_per_second)
@@ -87,7 +87,8 @@ end)
 
 -- loading screen
 local loadingScreen = GridContainer:new(frame, Vec2:ones(), frame.width, frame.height, 1, 3, colors.white)
-local progressBar = ProgressBar:new(loadingScreen, Vec2:ones(), 0, args.max_queue_length, loadingScreen.width / 2, 1, colors.black, colors.blue)
+local progressBar = ProgressBar:new(loadingScreen, Vec2:ones(), 0, args.max_queue_length, loadingScreen.width / 2, 1,
+  colors.black, colors.blue)
 local titleTv = TextView:new(loadingScreen, Vec2:ones(), "RADIANT SMILE", colors.black, colors.lightBlue)
 titleTv.centerText = true
 titleTv:setWidth(progressBar.width)
@@ -104,7 +105,8 @@ loadingScreen:buildLayout(GridContainer.Style:new():centerX(true):centerY(true))
 local rightColWidth = 12 + #tostring(args.max_queue_length)
 
 local graphContainer = Container:new(frame, Vec2:ones(), frame.width, frame.height, colors.blue)
-local graph = Graph:new(graphContainer, Vec2:new(2, 2), graphContainer.width - 3 - rightColWidth, graphContainer.height - 2, stats_queue)
+local graph = Graph:new(graphContainer, Vec2:new(2, 2), graphContainer.width - 3 - rightColWidth,
+  graphContainer.height - 2, stats_queue)
 graph:setUnit(energyUnit)
 graphTitleTv = TextView:new(graphContainer, Vec2:new(graph.topLeft.x + 1, 1), args.name, colors.black, colors.blue)
 graphTitleTv.centerText = true
@@ -167,4 +169,3 @@ frame:addWidgets({ loadingScreen, graphContainer })
 app:addWidget(frame, 1)
 
 app:run()
-
