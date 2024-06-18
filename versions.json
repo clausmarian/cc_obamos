@@ -1,9 +1,81 @@
 {
-    "version": "0.1.1",
+    "version": "0.1.2",
     "files": [
+        {
+            "path": "os2/lib/lua/energy/energyunit.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/energy/energyunit.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/event/event.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/event/event.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/event/mousebutton.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/event/mousebutton.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/event/eventlistener.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/event/eventlistener.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/event/timer/timer.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/event/timer/timer.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/app.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/app.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/objects/rect.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/objects/rect.lua"
+        },
         {
             "path": "os2/lib/lua/ui/animations.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/animations.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/core/collecting.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/core/collecting.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/progressbar.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/progressbar.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/radiogroup.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/radiogroup.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/textview.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/textview.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/button.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/button.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/textinput.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/textinput.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/radiobutton.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/radiobutton.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/graph.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/graph.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/widgets/widget.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/widgets/widget.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/layout/grid.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/layout/grid.lua"
+        },
+        {
+            "path": "os2/lib/lua/ui/layout/container.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/ui/layout/container.lua"
         },
         {
             "path": "os2/lib/lua/collections/set.lua",
@@ -14,8 +86,16 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/queue.lua"
         },
         {
+            "path": "os2/lib/lua/collections/stack.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/stack.lua"
+        },
+        {
             "path": "os2/lib/lua/collections/generic.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/generic.lua"
+        },
+        {
+            "path": "os2/lib/lua/collections/sortedlist.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/collections/sortedlist.lua"
         },
         {
             "path": "os2/lib/lua/net/netutils.lua",
@@ -42,6 +122,10 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/request.lua"
         },
         {
+            "path": "os2/lib/lua/net/lttp/endpointhandler.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/net/lttp/endpointhandler.lua"
+        },
+        {
             "path": "os2/lib/lua/reflect/classes.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/reflect/classes.lua"
         },
@@ -54,8 +138,36 @@
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/util/iter.lua"
         },
         {
+            "path": "os2/lib/lua/util/argparser/argparser.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/util/argparser/argparser.lua"
+        },
+        {
+            "path": "os2/lib/lua/util/argparser/parser.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/util/argparser/parser.lua"
+        },
+        {
+            "path": "os2/lib/lua/util/argparser/parsers.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/util/argparser/parsers.lua"
+        },
+        {
+            "path": "os2/lib/lua/std.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/std.lua"
+        },
+        {
             "path": "os2/lib/lua/math/vec2.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/math/vec2.lua"
+        },
+        {
+            "path": "os2/lib/lua/math/matrix.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/lib/lua/math/matrix.lua"
+        },
+        {
+            "path": "os2/programs/explorer/explorer.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/explorer/explorer.lua"
+        },
+        {
+            "path": "os2/programs/explorer/explorer_funcs.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/explorer/explorer_funcs.lua"
         },
         {
             "path": "os2/programs/reactor/reactor_server.lua",
@@ -64,6 +176,10 @@
         {
             "path": "os2/programs/reactor/reactor_common.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactor_common.lua"
+        },
+        {
+            "path": "os2/programs/reactor/reactors.json",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/reactor/reactors.json"
         },
         {
             "path": "os2/programs/reactor/reactor_client.lua",
