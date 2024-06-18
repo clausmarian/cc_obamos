@@ -36,7 +36,6 @@ stats = {
   sum_mq = 0
 }
 recv_value_count = 0
-recvEnergyUnit = EnergyUnit.FE
 energyUnit = EnergyUnit.FE
 reactorMod = nil
 reactorPeripheral = nil
@@ -69,16 +68,13 @@ app:addService(function()
     end)
 
     if response:isOk() then
-      local payload = response.payload
-
-      if recvEnergyUnit == nil then
-        local unit = EnergyUnit:fromKey(payload.energySystem)
-        if unit ~= nil then
-          recvEnergyUnit = unit
-        end
+      local energyProduced = math.floor(response.payload.energyProducedLastTick)
+      local unit = EnergyUnit:fromKey(response.payload.energySystem)
+      if unit ~= nil then
+        energyProduced = unit:convertTo(energyUnit, energyProduced)
       end
 
-      listener:callEvent("value", math.floor(payload.energyProducedLastTick))
+      listener:callEvent("value", energyProduced)
     end
 
     sleep(args.transmissions_per_second)
@@ -113,8 +109,6 @@ graphTitleTv.centerText = true
 graphTitleTv:setWidth(graph.width)
 
 listener:addEventHandler("value", function(value)
-  value = recvEnergyUnit:convertTo(energyUnit, value)
-
   local oldestVal = stats_queue:push(value)
   if oldestVal == nil then
     oldestVal = 0
