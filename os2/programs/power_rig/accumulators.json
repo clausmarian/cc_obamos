@@ -1,0 +1,11 @@
+[
+  {
+    "peripheral_name": "capacitor_lv"
+  },
+  {
+    "peripheral_name": "capacitor_mv"
+  },
+  {
+    "peripheral_name": "capacitor_hv"
+  }
+]

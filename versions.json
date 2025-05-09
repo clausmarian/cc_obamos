@@ -1,5 +1,5 @@
 {
-    "version": "0.1.2",
+    "version": "0.1.2.1",
     "files": [
         {
             "path": "os2/lib/lua/energy/energyunit.lua",
@@ -168,6 +168,26 @@
         {
             "path": "os2/programs/explorer/explorer_funcs.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/explorer/explorer_funcs.lua"
+        },
+        {
+            "path": "os2/programs/power_rig/accumulators.json",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/power_rig/accumulators.json"
+        },
+        {
+            "path": "os2/programs/power_rig/power_rig_client.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/power_rig/power_rig_client.lua"
+        },
+        {
+            "path": "os2/programs/power_rig/power_rig_common.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/power_rig/power_rig_common.lua"
+        },
+        {
+            "path": "os2/programs/power_rig/widgets/accumulatorbar.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/power_rig/widgets/accumulatorbar.lua"
+        },
+        {
+            "path": "os2/programs/power_rig/power_rig_server.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/power_rig/power_rig_server.lua"
         },
         {
             "path": "os2/programs/reactor/reactor_server.lua",
