@@ -20,11 +20,40 @@ local function isValidSide(side)
 	return false
 end
 
+function parseColor(value)
+  local str = tostring(value)
+  if str == nil then
+    return false
+  end
+  
+  if str == "" then
+    return true, 0
+  end
+  
+  local v = colors[str]
+  if type(v) ~= "number" then
+    return false
+  end
+  
+  return true, v
+end
+
+function getColorFromString(value)
+	local suc, col = parseColor(value)
+	
+	if not suc then
+	  return 0
+	end
+	
+	return col
+end
+
 local rsSide = Struct:new({
 	name = "string",
 	enabled = "boolean",
 	relay = "string", -- empty string = no relay, uses computers sides
 	side = "string",
+	bundled_color = "string", -- empty string = not bundled
 })
 
 local function writeCfg(path, cfg)
@@ -54,9 +83,28 @@ local function getRsPeripheral(rss)
 	return p
 end
 
+local function setRsState(rss, enabled)
+  local p = getRsPeripheral(rss)
+  local bcol = getColorFromString(rss.bundled_color)
+  
+  if bcol == 0 then
+    p.setOutput(rss.side, enabled)
+  else
+	local mask = p.getBundledOutput(rss.side)
+	
+	if enabled then
+	  mask = colors.combine(mask, bcol)
+	else
+	  mask = colors.subtract(mask, bcol)
+	end
+	
+	p.setBundledOutput(rss.side, mask)
+  end
+end
+
 local function toggleRsState(rss)
   rss.enabled = not rss.enabled
-  getRsPeripheral(rss).setOutput(rss.side, rss.enabled)
+  setRsState(rss, rss.enabled)  
   writeCfg(args.config_path, rsSides)
 end
 
@@ -72,8 +120,14 @@ for _, rss in ipairs(rsSides) do
 		printError("The relay '" .. tostring(rss.relay) .. "' of device '" .. rss.name .. "' couldn't be found!")
 		return
 	end
+	
+	local suc, bcol = parseColor(rss.bundled_color)
+	if not suc then
+	  printError("Device '" .. rss.name .. "' is using invalid bundled color '" .. tostring(rss.bundled_color) .. "'!")
+	  return
+	end
 
-	getRsPeripheral(rss).setOutput(rss.side, rss.enabled)
+	setRsState(rss, rss.enabled)
 
 	local nameLen = string.len(rss.name)
 	if nameLen > maxNameLen then

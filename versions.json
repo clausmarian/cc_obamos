@@ -1,5 +1,5 @@
 {
-    "version": "0.1.2.2",
+    "version": "0.1.2.3",
     "files": [
         {
             "path": "os2/lib/lua/energy/energyunit.lua",
