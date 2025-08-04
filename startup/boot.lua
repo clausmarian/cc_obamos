@@ -45,7 +45,7 @@ local function boot()
   peripheral.find("modem", rednet.open)
 
   -- setup path
-  shell.setPath(shell.path() .. ":/os2/programs/reactor:/os2/programs/explorer:/os2/programs/power_rig")
+  shell.setPath(shell.path() .. ":/os2/programs/reactor:/os2/programs/explorer:/os2/programs/power_rig:/os2/programs/redstone_control")
 
   if not settings.get("os2.setup", false) then
     SHOW_SPLASH = false
