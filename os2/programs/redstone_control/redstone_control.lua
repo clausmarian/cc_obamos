@@ -27,6 +27,13 @@ local rsSide = Struct:new({
 	side = "string",
 })
 
+local function writeCfg(path, cfg)
+	fs.makeDir(fs.getDir(path))
+	local file = fs.open(path, "w")
+	file.write(textutils.serialiseJSON(cfg))
+	file.close()
+end
+
 local argparser = ArgParser:new("A control panel for enabling/disabling redstone signals.")
 argparser:addArgument("config_path", "string", nil, "Path of the redstone connections config file")
 local args = argparser:parse_args()
@@ -37,9 +44,25 @@ if not suc then
 	return
 end
 
+local function getRsPeripheral(rss)
+	local p = rs
+
+	if rss.relay ~= "" then
+		p = peripheral.wrap(rss.relay)
+	end
+
+	return p
+end
+
+local function toggleRsState(rss)
+  rss.enabled = not rss.enabled
+  getRsPeripheral(rss).setOutput(rss.side, rss.enabled)
+  writeCfg(args.config_path, rsSides)
+end
+
 local maxNameLen = 1
 for _, rss in ipairs(rsSides) do
-  -- check side and relay of config
+	-- check side and relay of config
 	if not isValidSide(rss.side) then
 		printError("Device '" .. rss.name .. "' is using invalid side '" .. tostring(rss.side) .. "'!")
 		return
@@ -50,28 +73,12 @@ for _, rss in ipairs(rsSides) do
 		return
 	end
 
-  -- add switch state function
-  rss.getDevice = function(self)
-    local p = rs
+	getRsPeripheral(rss).setOutput(rss.side, rss.enabled)
 
-		if self.relay ~= "" then
-			p = peripheral.wrap(self.relay)
-		end
-
-    return p
-  end
-
-	rss.switch = function(self)
-		self.enabled = not self.enabled
-		self:getDevice().setOutput(self.side, self.enabled)
+	local nameLen = string.len(rss.name)
+	if nameLen > maxNameLen then
+		maxNameLen = nameLen
 	end
-
-  rss:getDevice().setOutput(rss.side, rss.enabled)
-
-  local nameLen = string.len(rss.name)
-  if nameLen > maxNameLen then
-    maxNameLen = nameLen
-  end
 end
 
 local app = App:new()
@@ -80,8 +87,8 @@ parent:makeScrollable(app, parent.height)
 
 local function addRsWidgets(rsDevices)
 	for i, rss in ipairs(rsDevices) do
-    local lbl = TextView:new(parent, Vec2:ones(), rss.name, colors.black)
-    lbl:setWidth(maxNameLen + 1)
+		local lbl = TextView:new(parent, Vec2:ones(), rss.name, colors.black)
+		lbl:setWidth(maxNameLen + 1)
 		parent:addWidget(lbl, 1, i)
 
 		local switch = Button:new(
@@ -103,7 +110,7 @@ local function addRsWidgets(rsDevices)
 					switch.bgColor = colors.green
 				end
 
-        rss:switch()
+        toggleRsState(rss)
 			end
 		end)
 		parent:addWidget(switch, 2, i)
