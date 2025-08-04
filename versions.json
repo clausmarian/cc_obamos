@@ -1,5 +1,5 @@
 {
-    "version": "0.1.2.1",
+    "version": "0.1.2.2",
     "files": [
         {
             "path": "os2/lib/lua/energy/energyunit.lua",
@@ -188,6 +188,10 @@
         {
             "path": "os2/programs/power_rig/power_rig_server.lua",
             "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/power_rig/power_rig_server.lua"
+        },
+        {
+            "path": "os2/programs/redstone_control/redstone_control.lua",
+            "url": "https://raw.githubusercontent.com/clausmarian/cc_obamos/main/os2/programs/redstone_control/redstone_control.lua"
         },
         {
             "path": "os2/programs/reactor/reactor_server.lua",
